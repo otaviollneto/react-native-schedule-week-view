@@ -92,7 +92,7 @@ export default class WeekView extends Component {
     this.eventsGridScrollX.removeAllListeners();
   }
 
-  calculateTimes = memoizeOne((minutesStep, formatTimeLabel) => {
+  calculateTimes = (minutesStep, formatTimeLabel) => {
     const { initialHour, finalHour } = this.props;
     const times = [];
     const startOfDay = moment().startOf('day');
@@ -106,7 +106,7 @@ export default class WeekView extends Component {
       times.push(time.format(formatTimeLabel));
     }
     return times;
-  });
+  };
 
   scrollToVerticalStart = () => {
     if (this.verticalAgenda) {
