@@ -23,21 +23,23 @@ const Column = ({
   format,
   style,
   textStyle,
+  today
 }) => {
   const formattedDate = getFormattedDate(column, format);
-  const fullTextStyle = [getDayTextStyles(numberOfDays), textStyle];
+  const fullTextStyle = [getDayTextStyles(7), textStyle];
+
+  console.log(moment(today).format('YYYY-MM-DD'), today);
 
   return (
     <View style={[styles.column, style]}>
-      {numberOfDays === 1 ? <></> :
-        moment().format('YYYY-MM-DD') === formattedDate ?
+      {moment(today).format('YYYY-MM-DD') === formattedDate ?
         <>
-          <Text style={[fullTextStyle, {color: '#2797BA',}]}>{moment(formattedDate).format('ddd')}</Text>
+          <Text style={[fullTextStyle, { color: '#2797BA', }]}>{moment(formattedDate).format('ddd')}</Text>
           <View style={{ width: 26, height: 26, borderColor: '#2797BA', borderRadius: 26, backgroundColor: '#2797BA', justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={[fullTextStyle, {color: 'white', fontSize: 16}]}>{moment(formattedDate).format('DD')}</Text>
+            <Text style={[fullTextStyle, { color: 'white', fontSize: 16 }]}>{moment(formattedDate).format('DD')}</Text>
           </View>
         </>
-        : 
+        :
         <>
           <Text style={fullTextStyle}>{moment(formattedDate).format('ddd')}</Text>
           <View style={{ width: 26, height: 26, justifyContent: 'center', alignItems: 'center' }}>
@@ -56,6 +58,7 @@ const Columns = ({
   style,
   textStyle,
   TodayComponent,
+  today
 }) => {
   return (
     <View style={styles.columns}>
@@ -69,6 +72,7 @@ const Columns = ({
             numberOfDays={numberOfDays}
             format={format}
             TodayComponent={TodayComponent}
+            today={today}
           />
         );
       })}
@@ -84,8 +88,9 @@ const WeekViewHeader = ({
   textStyle,
   TodayComponent,
   rightToLeft,
+  today
 }) => {
-  const columns = calculateDaysArray(initialDate, numberOfDays, rightToLeft);
+  const columns = calculateDaysArray(initialDate, 7, false);
   //=console.log('columns', initialDate, numberOfDays, rightToLeft);
   return (
     <View style={styles.container}>
@@ -97,6 +102,7 @@ const WeekViewHeader = ({
           style={style}
           textStyle={textStyle}
           TodayComponent={TodayComponent}
+          today={today}
         />
       )}
     </View>

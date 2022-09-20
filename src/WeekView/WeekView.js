@@ -190,7 +190,7 @@ export default class WeekView extends Component {
     };
 
     const newState = {};
-    let newStateCallback = () => {};
+    let newStateCallback = () => { };
     // The final target may change, if pages are added
     let targetIndex = target;
 
@@ -251,7 +251,7 @@ export default class WeekView extends Component {
       const newState = {
         currentMoment: newMoment,
       };
-      let newStateCallback = () => {};
+      let newStateCallback = () => { };
 
       if (movedPages < 0 && newPage < this.pageOffset) {
         this.prependPagesInPlace(initialDates, 1);
@@ -399,6 +399,7 @@ export default class WeekView extends Component {
       onDragEvent,
       isRefreshing,
       RefreshComponent,
+      today
     } = this.props;
     const { currentMoment, initialDates } = this.state;
     const times = this.calculateTimes(timeStep, formatTimeLabel);
@@ -439,8 +440,8 @@ export default class WeekView extends Component {
                     TodayComponent={TodayHeaderComponent}
                     formatDate={formatDateHeader}
                     initialDate={item}
-                    numberOfDays={numberOfDays}
                     rightToLeft={rightToLeft}
+                    today={today}
                   />
                 </View>
               );
@@ -543,6 +544,7 @@ WeekView.propTypes = {
   gridRowStyle: Events.propTypes.gridRowStyle,
   gridColumnStyle: Events.propTypes.gridColumnStyle,
   selectedDate: PropTypes.instanceOf(Date).isRequired,
+  today: PropTypes.string,
   locale: PropTypes.string,
   hoursInDisplay: PropTypes.number,
   timeStep: PropTypes.number,
