@@ -28,23 +28,21 @@ const Column = ({
   const formattedDate = getFormattedDate(column, format);
   const fullTextStyle = [getDayTextStyles(7), textStyle];
 
-  console.log(moment(today).format('YYYY-MM-DD'), today);
-
   return (
     <View style={[styles.column, style]}>
       {moment(today).format('YYYY-MM-DD') === formattedDate ?
         <>
-          <Text style={[fullTextStyle, { color: '#2797BA', }]}>{moment(formattedDate).format('ddd')}</Text>
+          {/* <Text style={[fullTextStyle, { color: '#2797BA', }]}>{moment(formattedDate).format('ddd')}</Text>
           <View style={{ width: 26, height: 26, borderColor: '#2797BA', borderRadius: 26, backgroundColor: '#2797BA', justifyContent: 'center', alignItems: 'center' }}>
             <Text style={[fullTextStyle, { color: 'white', fontSize: 16 }]}>{moment(formattedDate).format('DD')}</Text>
-          </View>
+          </View> */}
         </>
         :
         <>
-          <Text style={fullTextStyle}>{moment(formattedDate).format('ddd')}</Text>
+          {/* <Text style={fullTextStyle}>{moment(formattedDate).format('ddd')}</Text>
           <View style={{ width: 26, height: 26, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={fullTextStyle}>{moment(formattedDate).format('DD')}</Text>
-          </View>
+          </View> */}
         </>
       }
     </View>
@@ -91,7 +89,7 @@ const WeekViewHeader = ({
   today
 }) => {
   const columns = calculateDaysArray(initialDate, 7, false);
-  //=console.log('columns', initialDate, numberOfDays, rightToLeft);
+
   return (
     <View style={styles.container}>
       {columns && (

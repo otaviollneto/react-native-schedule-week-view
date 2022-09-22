@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    height: 50,
+    height: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: CONTAINER_WIDTH,
