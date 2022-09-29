@@ -25,6 +25,27 @@ import {
   CONTAINER_WIDTH,
 } from '../utils';
 
+const MINUTES_IN_DAY = 60 * 24;
+const calculateTimesArray = (
+  minutesStep,
+  formatTimeLabel,
+  beginAt = 0,
+  endAt = MINUTES_IN_DAY,
+) => {
+  const times = [];
+  const startOfDay = moment().startOf('day');
+  for (
+    let timer = beginAt >= 0 && beginAt < MINUTES_IN_DAY ? beginAt : 0;
+    timer < endAt && timer < MINUTES_IN_DAY;
+    timer += minutesStep
+  ) {
+    const time = startOfDay.clone().minutes(timer);
+    times.push(time.format(formatTimeLabel));
+  }
+
+  return times;
+};
+
 export default class WeekView extends Component {
   constructor(props) {
     super(props);
@@ -92,21 +113,7 @@ export default class WeekView extends Component {
     this.eventsGridScrollX.removeAllListeners();
   }
 
-  calculateTimes = (minutesStep, formatTimeLabel) => {
-    const { initialHour, finalHour } = this.props;
-    const times = [];
-    const startOfDay = moment().startOf('day');
-    // calcula em minutos a quantidade de horas
-    for (
-      let timer = initialHour;
-      timer < finalHour * 60;
-      timer += minutesStep
-    ) {
-      const time = startOfDay.clone().minutes(timer);
-      times.push(time.format(formatTimeLabel));
-    }
-    return times;
-  };
+  calculateTimes = memoizeOne(calculateTimesArray);
 
   scrollToVerticalStart = () => {
     if (this.verticalAgenda) {
@@ -387,6 +394,8 @@ export default class WeekView extends Component {
       events,
       hoursInDisplay,
       timeStep,
+      beginAgendaAt,
+      endAgendaAt,
       formatTimeLabel,
       onGridClick,
       onGridLongPress,
@@ -402,7 +411,12 @@ export default class WeekView extends Component {
       today
     } = this.props;
     const { currentMoment, initialDates } = this.state;
-    const times = this.calculateTimes(timeStep, formatTimeLabel);
+    const times = this.calculateTimes(
+      timeStep,
+      formatTimeLabel,
+      beginAgendaAt,
+      endAgendaAt,
+    );
     const eventsByDate = this.sortEventsByDate(events);
     const horizontalInverted =
       (prependMostRecent && !rightToLeft) ||
@@ -548,6 +562,8 @@ WeekView.propTypes = {
   locale: PropTypes.string,
   hoursInDisplay: PropTypes.number,
   timeStep: PropTypes.number,
+  beginAgendaAt: PropTypes.number,
+  endAgendaAt: PropTypes.number,
   formatTimeLabel: PropTypes.string,
   startHour: PropTypes.number,
   initialHour: PropTypes.number,
@@ -571,6 +587,8 @@ WeekView.defaultProps = {
   hoursInDisplay: 6,
   weekStartsOn: 1,
   timeStep: 60,
+  beginAgendaAt: 0,
+  endAgendaAt: MINUTES_IN_DAY,
   formatTimeLabel: 'H:mm',
   startHour: 8,
   initialHour: 0,
